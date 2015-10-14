@@ -1,0 +1,8 @@
+bear,180,15
+cat,52,10 
+dog,53,10 
+hamster,15,2 
+elephant,510,30 
+hippopotamus,220,30 
+human,253,65
+lion,106,10 
