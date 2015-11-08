@@ -17,15 +17,6 @@ def loadWords(filename):
         allwords.append(line)
     f.close()
     return allwords
-    
-     
-def getWords(allwords,wordlength):
-    """
-    returns a list of words having a specified length from
-    allwords
-    """
-    wlist = [w for w in allwords if len(w) == wordlength]
-    return wlist
 
 def display(guess):
     '''
@@ -38,7 +29,18 @@ def makeSecretList(secret):
     Create the list that's modificable to track letters 
     guessed by user
     '''
-    return ['_']*len(secret)
+    blanks = []
+    for ch in secret:
+        '''
+        Only replace alphabetic characters with spaces,
+        so the user doens't have to guess punctuation,
+        spaces, or numbers
+        '''
+        if ch.isalpha():
+            blanks.append("_")
+        else:
+            blanks.append(ch)
+    return blanks
 
 def doGame(word):
     guess = makeSecretList(word)
@@ -49,32 +51,35 @@ def doGame(word):
     while True:
         if guess.count('_') == 0:
             break
+        print ""
         print "number of misses left: " + str(missesAllowed - misses)
         print "letters not yet guessed: " + lettersNotGuessed
         print "secret so far:",display(guess)
-        letter = raw_input("guess a letter: ")
+        letter = raw_input("guess a letter: ").lower()
         if letter not in lettersNotGuessed:
+            #if letter has already been guessed, does not count as a miss
             continue
         lettersNotGuessed = lettersNotGuessed.replace(letter, " ")
         success = False
         for index in range(len(word)):
-            if word[index].lower() == letter.lower():
+            if word[index].lower() == letter:
                 guess[index] = word[index]
                 success = True
         if not success:
             misses += 1
-    
+        if misses == missesAllowed:
+            break
+            
     if guess.count("_") == 0:
         print "word is guessed!",word
     else:
         print "you lost! word is",word
  
 def play(allwords):
-    wlen = int(raw_input("how many letters in word you'll guess? "))
-    words = getWords(allwords,wlen)    
-    word = random.choice(words)
+    print "Guess the song!"
+    word = random.choice(allwords)
     doGame(word)
 
 if __name__ == '__main__':
-    allwords = loadWords("lowerwords.txt")
+    allwords = loadWords("songs.txt")
     play(allwords)
