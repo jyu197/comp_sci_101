@@ -19,8 +19,7 @@ def edit(entry):
                     entry[k] = set("")
                     edited = False
         entry = [words for words in entry if words != set("")]
-    return sorted([" ".join(sorted(list(words))) for words in entry])
-    
+    return sorted([" ".join(sorted(list(words))) for words in entry])   
 
 if __name__ == '__main__':
     pass
